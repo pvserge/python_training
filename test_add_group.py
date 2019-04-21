@@ -7,9 +7,11 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 
+
 class TestAddGroup(unittest.TestCase):
     def setUp(self):
         self.wd = webdriver.Firefox()
+        # self.wd = webdriver.Chrome('/home/sergey/.local/bin/chromedriver')
         self.wd.implicitly_wait(30)
 
     def test_add_group(self):
