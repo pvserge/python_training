@@ -8,12 +8,14 @@ from contact import Contact
 class TestAddContact(unittest.TestCase):
     def setUp(self):
         self.wd = webdriver.Firefox()
+        # self.wd = webdriver.Chrome()
         self.wd.implicitly_wait(30)
 
     def open_home_page(self, wd):
         wd.get("http://localhost/addressbook/index.php")
 
     def login(self, wd, username, password):
+        self.open_home_page(wd)
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
@@ -90,6 +92,7 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("notes").send_keys(contact.notes)
         # submit form
         wd.find_element_by_xpath("//input[21]").click()
+        self.return_to_home_page(wd)
 
     def return_to_home_page(self, wd):
         # return to home page
@@ -100,14 +103,12 @@ class TestAddContact(unittest.TestCase):
 
     def test_add_contact(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.create_new_contact(wd, Contact(firstname='test', lastname='test', middlename='test', nickname='test',
                                             title='Mr', company='none', address='Addr1', home='123123123',
                                             mobile='123123123', work='123123123', fax='123123123', email='123@123.123',
                                             bday='7', bmonth='June', byear='1977', aday='12', amonth='August',
                                             ayear='2000', address2='none', phone2='none', notes='none'))
-        self.return_to_home_page(wd)
         self.logout(wd)
 
     def tearDown(self):
