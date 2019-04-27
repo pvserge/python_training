@@ -6,10 +6,8 @@ class ContactHelper:
     def __init__(self, app):
         self.app = app
 
-    def create(self, contact):
+    def fill_contact_form(self, contact):
         wd = self.app.wd
-        # open edit page
-        wd.find_element_by_link_text("add new").click()
         # fill new contact form
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
@@ -47,21 +45,13 @@ class ContactHelper:
         wd.find_element_by_name("email").click()
         wd.find_element_by_name("email").clear()
         wd.find_element_by_name("email").send_keys(contact.email)
-        wd.find_element_by_name("bday").click()
         Select(wd.find_element_by_name("bday")).select_by_visible_text(contact.bday)
-        wd.find_element_by_xpath("//option[9]").click()
-        wd.find_element_by_name("bmonth").click()
         Select(wd.find_element_by_name("bmonth")).select_by_visible_text(contact.bmonth)
-        wd.find_element_by_xpath("//select[2]/option[7]").click()
         wd.find_element_by_name("byear").click()
         wd.find_element_by_name("byear").clear()
         wd.find_element_by_name("byear").send_keys(contact.byear)
-        wd.find_element_by_name("aday").click()
         Select(wd.find_element_by_name("aday")).select_by_visible_text(contact.aday)
-        wd.find_element_by_xpath("//select[3]/option[14]").click()
-        wd.find_element_by_name("amonth").click()
         Select(wd.find_element_by_name("amonth")).select_by_visible_text(contact.amonth)
-        wd.find_element_by_xpath("//select[4]/option[9]").click()
         wd.find_element_by_name("ayear").click()
         wd.find_element_by_name("ayear").clear()
         wd.find_element_by_name("ayear").send_keys(contact.ayear)
@@ -74,6 +64,13 @@ class ContactHelper:
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(contact.notes)
+
+    def create(self, contact):
+        wd = self.app.wd
+        # open edit page
+        wd.find_element_by_link_text("add new").click()
+        # fill contact form
+        self.fill_contact_form(contact)
         # submit form
         wd.find_element_by_xpath("//input[21]").click()
         self.return_to_home_page()
@@ -86,6 +83,16 @@ class ContactHelper:
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         # confirm deletion
         wd.switch_to.alert.accept()
+
+    def edit_first_contact(self, contact):
+        wd = self.app.wd
+        # init edit
+        wd.find_element_by_xpath("//a[contains(@href,'edit.php?')]").click()
+        # fill contact form
+        self.fill_contact_form(contact)
+        # submit updated form
+        wd.find_element_by_name("update").click()
+        self.return_to_home_page()
 
     def return_to_home_page(self):
         wd = self.app.wd
