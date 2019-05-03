@@ -6,6 +6,10 @@ class ContactHelper:
     def __init__(self, app):
         self.app = app
 
+    def open_contact_page(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("home").click()
+
     def change_field_value(self, field_name, text):
         wd = self.app.wd
         if text is not None:
@@ -44,6 +48,7 @@ class ContactHelper:
     def create(self, contact):
         wd = self.app.wd
         # open edit page
+        self.open_contact_page()
         wd.find_element_by_link_text("add new").click()
         # fill contact form
         self.fill_contact_form(contact)
@@ -53,6 +58,7 @@ class ContactHelper:
 
     def delete_first_contact(self):
         wd = self.app.wd
+        self.open_contact_page()
         # select first element
         wd.find_element_by_name("selected[]").click()
         # deletion
@@ -62,6 +68,7 @@ class ContactHelper:
 
     def edit_first_contact(self, contact):
         wd = self.app.wd
+        self.open_contact_page()
         # init edit
         wd.find_element_by_xpath("//a[contains(@href,'edit.php?')]").click()
         # fill contact form
