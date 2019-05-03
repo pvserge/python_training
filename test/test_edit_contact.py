@@ -10,3 +10,15 @@ def test_edit_first_contact(app):
                                            bmonth='July', byear='1922', aday='22', amonth='October', ayear='2002',
                                            address2='updated none', phone2='updated none', notes='updated none'))
     app.session.logout()
+
+
+def test_edit_first_contact_first_name(app):
+    app.session.login(username="admin", password="secret")
+    app.contact.edit_first_contact(Contact(firstname='updated test new'))
+    app.session.logout()
+
+
+def test_edit_first_contact_birth_year(app):
+    app.session.login(username="admin", password="secret")
+    app.contact.edit_first_contact(Contact(byear='1977'))
+    app.session.logout()
