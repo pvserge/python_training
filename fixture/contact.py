@@ -57,6 +57,7 @@ class ContactHelper:
         # submit form
         wd.find_element_by_xpath("//input[21]").click()
         self.return_to_home_page()
+        self.contact_cache = None
 
     def delete_first_contact(self):
         wd = self.app.wd
@@ -68,6 +69,7 @@ class ContactHelper:
         # confirm deletion
         wd.switch_to.alert.accept()
         self.open_contact_page()
+        self.contact_cache = None
 
     def edit_first_contact(self, contact):
         wd = self.app.wd
@@ -79,6 +81,7 @@ class ContactHelper:
         # submit updated form
         wd.find_element_by_name("update").click()
         self.return_to_home_page()
+        self.contact_cache = None
 
     def return_to_home_page(self):
         wd = self.app.wd
@@ -90,13 +93,16 @@ class ContactHelper:
         self.open_contact_page()
         return len(wd.find_elements_by_name("selected[]"))
 
+    contact_cache = None
+
     def get_contact_list(self):
-        wd = self.app.wd
-        self.open_contact_page()
-        contacts = []
-        for element in wd.find_elements_by_xpath("//tr[@name='entry']"):
-            id = element.find_element_by_name('selected[]').get_attribute('value')
-            last_name = element.find_element_by_xpath(".//td[2]").text
-            first_name = element.find_element_by_xpath(".//td[3]").text
-            contacts.append(Contact(lastname=last_name, firstname=first_name, id=id))
-        return contacts
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.open_contact_page()
+            self.contact_cache = []
+            for element in wd.find_elements_by_xpath("//tr[@name='entry']"):
+                id = element.find_element_by_name('selected[]').get_attribute('value')
+                last_name = element.find_element_by_xpath(".//td[2]").text
+                first_name = element.find_element_by_xpath(".//td[3]").text
+                self.contact_cache.append(Contact(lastname=last_name, firstname=first_name, id=id))
+        return list(self.contact_cache)
