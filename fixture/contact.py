@@ -181,3 +181,16 @@ class ContactHelper:
                                 map(lambda x: self.clear(x),
                                     filter(lambda x: x is not None,
                                            [contact.email1, contact.email2, contact.email3]))))
+
+    def remove_extra_spaces(self, s):
+        return re.sub(" +", " ", s)
+
+    def remove_extra_spaces_in_contact_names(self, contact):
+        if contact.firstname is not None:
+            contact.firstname = self.remove_extra_spaces(contact.firstname)
+        if contact.lastname is not None:
+            contact.lastname = self.remove_extra_spaces(contact.lastname)
+        if contact.middlename is not None:
+            contact.middlename = self.remove_extra_spaces(contact.middlename)
+        return contact
+
