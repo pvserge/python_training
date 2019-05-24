@@ -7,11 +7,12 @@ from fixture.contact import ContactHelper
 class Application:
 
     def __init__(self, browser, base_url):
-        if browser == "firefox":
+        browser_upper = browser.upper()
+        if browser_upper == "FIREFOX":
             self.wd = webdriver.Firefox()
-        elif browser == "chrome":
+        elif browser_upper == "CHROME":
             self.wd = webdriver.Chrome()
-        elif browser == "ie":
+        elif browser_upper == "IE":
             self.wd = webdriver.Ie()
         else:
             raise ValueError("Unrecognized browser %s" % browser)
