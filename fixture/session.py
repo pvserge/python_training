@@ -19,7 +19,8 @@ class SessionHelper:
         wd.find_element_by_name("user")
 
     def is_logged_in_as(self, username):
-        return self.get_logged_user == username
+        result = self.get_logged_user() == username
+        return result
 
     def get_logged_user(self):
         wd = self.app.wd
