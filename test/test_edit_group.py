@@ -2,15 +2,15 @@ from model.group import Group
 import random
 
 
-def test_edit_random_group(app, db, check_ui):
-    if len(db.get_group_list()) == 0:
+def test_edit_random_group(app, orm, check_ui):
+    if len(orm.get_group_list()) == 0:
         app.group.create(Group(name="Mod Group"))
-    old_groups = db.get_group_list()
+    old_groups = orm.get_group_list()
     new_group = Group(name='11', header='11', footer='11')
     group_to_mod = random.choice(old_groups)
     id_to_mod = group_to_mod.id
     app.group.edit_group_by_id(id_to_mod, new_group)
-    new_groups = db.get_group_list()
+    new_groups = orm.get_group_list()
     for group in old_groups:
         if group.id == id_to_mod:
             group.name = new_group.name

@@ -1,13 +1,13 @@
 from model.contact import Contact
 
 
-def test_info_on_home_page(app, db):
-    if len(db.get_contact_list()) == 0:
+def test_info_on_home_page(app, orm):
+    if len(orm.get_contact_list()) == 0:
         app.contact.create(Contact(firstname='First Name', lastname='Last Name', address='Addr1',
                                    homephone='+123123123', mobilephone='(222)222222', workphone='111-222-333',
                                    email1='email1@123.123', email2='email2@123.123', email3='email3@123.123',
                                    address2='Addr2', secondaryphone='555555555'))
-    contacts_from_db = db.get_contact_list()
+    contacts_from_db = orm.get_contact_list()
     print(sorted(contacts_from_db, key=Contact.id_or_max))
     contacts_from_home_page = app.contact.get_contact_list()
     print(sorted(contacts_from_home_page, key=Contact.id_or_max))

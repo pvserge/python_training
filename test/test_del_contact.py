@@ -2,14 +2,19 @@ from model.contact import Contact
 import random
 
 
-def test_delete_random_contact(app, db, check_ui):
-    if len(db.get_contact_list()) == 0:
+def test_delete_random_contact(app, orm, check_ui):
+    if len(orm.get_contact_list()) == 0:
         app.contact.create(Contact(firstname="Del Contact"))
-    old_contacts = db.get_contact_list()
+    old_contacts = orm.get_contact_list()
+    print(len(old_contacts))
     contact = random.choice(old_contacts)
     app.contact.delete_contact_by_id(contact.id)
-    new_contacts = db.get_contact_list()
+    new_contacts = orm.get_contact_list()
+    print(len(new_contacts))
+    print(new_contacts)
     old_contacts.remove(contact)
+    print(len(old_contacts))
+    print(old_contacts)
     assert old_contacts == new_contacts
     if check_ui:
         new_contacts = list(map(app.contact.remove_extra_spaces_in_contact_names, new_contacts))

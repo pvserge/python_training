@@ -23,9 +23,9 @@ class ContactHelper:
     def select_field_value(self, field_name, value):
         wd = self.app.wd
         if value is not None:
-            Select(wd.find_element_by_name(field_name)).select_by_visible_text(value)
+            Select(wd.find_element_by_name(field_name)).select_by_value(value)
 
-    def fill_contact_form(self, contact):
+    def fill_contact_form(self, contact, group=None):
         self.change_field_value("firstname", contact.firstname)
         self.change_field_value("middlename", contact.middlename)
         self.change_field_value("lastname", contact.lastname)
@@ -49,6 +49,8 @@ class ContactHelper:
         self.change_field_value("address2", contact.address2)
         self.change_field_value("phone2", contact.secondaryphone)
         self.change_field_value("notes", contact.notes)
+        if group is not None:
+            self.select_field_value("new_group", group.id)
 
     def create(self, contact):
         wd = self.app.wd
@@ -57,6 +59,18 @@ class ContactHelper:
         wd.find_element_by_link_text("add new").click()
         # fill contact form
         self.fill_contact_form(contact)
+        # submit form
+        wd.find_element_by_xpath("//input[21]").click()
+        self.return_to_home_page()
+        self.contact_cache = None
+
+    def create_with_group(self, contact, group):
+        wd = self.app.wd
+        # open edit page
+        self.open_contact_page()
+        wd.find_element_by_link_text("add new").click()
+        # fill contact form
+        self.fill_contact_form(contact, group=group)
         # submit form
         wd.find_element_by_xpath("//input[21]").click()
         self.return_to_home_page()
