@@ -84,6 +84,21 @@ class ContactHelper:
         self.open_contact_page()
         self.contact_cache = None
 
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+
+    def delete_contact_by_id(self, id):
+        wd = self.app.wd
+        self.open_contact_page()
+        self.select_contact_by_id(id)
+        # deletion
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        # confirm deletion
+        wd.switch_to.alert.accept()
+        self.open_contact_page()
+        self.contact_cache = None
+
     def edit_first_contact(self, contact):
         self.edit_contact_by_index(0, contact)
 
@@ -183,7 +198,7 @@ class ContactHelper:
                                            [contact.email1, contact.email2, contact.email3]))))
 
     def remove_extra_spaces(self, s):
-        return re.sub(" +", " ", s)
+        return re.sub(" +", " ", s).strip(" ")
 
     def remove_extra_spaces_in_contact_names(self, contact):
         if contact.firstname is not None:

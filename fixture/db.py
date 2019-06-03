@@ -33,7 +33,7 @@ class DbFixture:
             for row in cursor:
                 (id, firstname, lastname, address, homephone, mobilephone, workphone, secondaryphone,
                  email, email2, email3) = row
-                list.append(Contact(id=id, firstname=firstname, lastname=lastname, address=address, homephone=homephone,
+                list.append(Contact(id=str(id), firstname=firstname, lastname=lastname, address=address, homephone=homephone,
                                     workphone=workphone, secondaryphone=secondaryphone, email1=email, email2=email2,
                                     email3=email3))
         finally:
