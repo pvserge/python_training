@@ -76,6 +76,17 @@ class ContactHelper:
         self.return_to_home_page()
         self.contact_cache = None
 
+    def add_to_group(self, contact, group):
+        wd = self.app.wd
+        # open edit page
+        self.open_contact_page()
+        self.select_contact_by_id(contact.id)
+        self.select_field_value("to_group", group.id)
+        # submit
+        wd.find_element_by_xpath("//input[@value='Add to']").click()
+        self.open_contact_page()
+        self.contact_cache = None
+
     def delete_first_contact(self):
         self.delete_contact_by_index(0)
 
@@ -110,6 +121,19 @@ class ContactHelper:
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         # confirm deletion
         wd.switch_to.alert.accept()
+        self.open_contact_page()
+        self.contact_cache = None
+
+    def remove_contact_from_group(self, contact, group):
+        wd = self.app.wd
+        # open edit page
+        self.open_contact_page()
+        # select group
+        self.select_field_value("group", group.id)
+        # select contact
+        self.select_contact_by_id(contact.id)
+        # delete
+        wd.find_element_by_name("remove").click()
         self.open_contact_page()
         self.contact_cache = None
 
