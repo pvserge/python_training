@@ -6,9 +6,11 @@ def test_delete_random_contact(app, orm, check_ui):
     if len(orm.get_contact_list()) == 0:
         app.contact.create(Contact(firstname="Del Contact"))
     old_contacts = orm.get_contact_list()
+    print("Amount of contact before deletion: %s" % len(old_contacts))
     contact = random.choice(old_contacts)
     app.contact.delete_contact_by_id(contact.id)
     new_contacts = orm.get_contact_list()
+    print("Amount of contact after deletion: %s" % len(new_contacts))
     old_contacts.remove(contact)
     assert old_contacts == new_contacts
     if check_ui:
