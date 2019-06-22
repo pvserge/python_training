@@ -2,6 +2,7 @@ from pytest_bdd import given, when, then
 from model.group import Group
 import random
 
+
 @given('a group list')
 def group_list(orm):
     return orm.get_group_list()
@@ -18,7 +19,7 @@ def add_new_group(app, new_group):
 
 
 @then('the new group list is equal to the old list with added group')
-def verify_group_edit(app, orm, group_list, new_group, check_ui):
+def verify_group_added(app, orm, group_list, new_group, check_ui):
     old_groups = group_list
     new_groups = orm.get_group_list()
     old_groups.append(new_group)
