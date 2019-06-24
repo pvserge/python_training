@@ -103,3 +103,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# RobotFramework
+log.html
+output.xml
+report.html
