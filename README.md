@@ -7,7 +7,7 @@ There were implemented:
 2. BDD tests
 3. Robot Framework tests
 
-To run tests some prerequsites needed:
+To run tests some prerequisites needed:
 1. AddressBook application (link to app is available inside course only)
-2. XAMPP Server 5 to intall AddressBook app (application under test won't work on newer version of XAMPP)
+2. XAMPP Server 5 to install AddressBook app (application under test won't work on newer version of XAMPP)
 3. Python 3
