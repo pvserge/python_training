@@ -3,7 +3,7 @@ import os.path
 from fixture.application import Application
 from fixture.orm import ORMFixture
 from model.group import Group
-
+from model.contact import Contact
 
 class AddressBook:
 
@@ -41,3 +41,24 @@ class AddressBook:
     def group_lists_should_be_equal(self, list1, list2):
         assert sorted(list1, key=Group.id_or_max) == sorted(list2, key=Group.id_or_max)
 
+    def new_contact(self, firstname, lastname, address):
+        return Contact(firstname=firstname, lastname=lastname, address=address)
+
+    def get_contact_list(self):
+        return self.ormfixture.get_contact_list()
+
+    def create_contact(self, contact):
+        self.fixture.contact.create(contact)
+
+    def delete_contact(self, contact):
+        self.fixture.contact.delete_contact_by_id(contact.id)
+
+    def modify_contact(self, contact, new_contact):
+        self.fixture.contact.edit_contact_by_id(contact.id, new_contact)
+
+    def get_modified_contact(self, contact, new_contact):
+        new_contact.id = contact.id
+        return new_contact
+
+    def contact_lists_should_be_equal(self, list1, list2):
+        assert sorted(list1, key=Contact.id_or_max) == sorted(list2, key=Contact.id_or_max)
